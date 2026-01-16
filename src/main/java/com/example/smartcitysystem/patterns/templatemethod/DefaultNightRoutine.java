@@ -12,8 +12,6 @@ public class DefaultNightRoutine extends NightRoutineTemplate {
 
     @Override
     protected void checkSensors(String runId) {
-        // Burada istersen SensorDataRepository’den son verileri çekebilirsin.
-        // Şimdilik kanıt/log odaklı:
         log.info("[TEMPLATE][DEFAULT] checkSensors: last sensor snapshot checked. runId={}", runId);
     }
 

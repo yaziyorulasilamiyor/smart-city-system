@@ -8,7 +8,7 @@ import java.time.Instant;
 public abstract class NightRoutineTemplate {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    // TEMPLATE METHOD:
+
     public final RoutineResult run() {
         String runId = "NR-" + Instant.now().toEpochMilli();
         log.info("[TEMPLATE] Night routine started. runId={}", runId);
@@ -26,12 +26,10 @@ public abstract class NightRoutineTemplate {
         return new RoutineResult(runId, summary);
     }
 
-    // Hook:
     protected void beforeAll(String runId) {
         log.info("[TEMPLATE] beforeAll (default). runId={}", runId);
     }
 
-    // Adımlarr
     protected abstract void lockCityAssets(String runId);
 
     protected void switchToNightMode(String runId) {

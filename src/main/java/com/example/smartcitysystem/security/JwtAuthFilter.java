@@ -49,7 +49,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception ignored) {
-                // token bozuksa auth set etmesin diye
             }
         }
 
