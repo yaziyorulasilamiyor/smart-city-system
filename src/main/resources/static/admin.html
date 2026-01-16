@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+</head>
+<body>
+<h1>Admin Dashboard</h1>
+<div style="margin: 12px 0; display:flex; gap:8px;">
+    <input id="tokenInput" placeholder="Paste JWT token here"
+           style="flex:1; padding:8px; border:1px solid #ccc; border-radius:6px;" />
+    <button id="saveTokenBtn" style="padding:8px 12px;">Save Token</button>
+    <button id="clearTokenBtn" style="padding:8px 12px;">Clear Token</button>
+</div>
+<div style="margin-bottom:12px;">
+    <button id="btnRefresh">Refresh Alerts</button>
+</div>
+
+<pre id="alertsBox">Loading...</pre>
+<script>
+    // 1) token kaydetme
+    document.getElementById("saveTokenBtn").addEventListener("click", () => {
+      const t = document.getElementById("tokenInput").value.trim();
+      localStorage.setItem("token", t);
+      alert("Token saved ✅");
+    });
+    // extra) token silme
+document.getElementById("clearTokenBtn").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  document.getElementById("tokenInput").value = "";
+  document.getElementById("alertsBox").textContent = "Token cleared. Please paste token and refresh.";
+});
+
+    // 2) alertleri çekme
+    async function loadAlerts() {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("/alerts?limit=100", {
+        headers: { "Authorization": "Bearer " + token }
+      });
+
+      const box = document.getElementById("alertsBox");
+
+      if (!res.ok) {
+        box.textContent = "HTTP " + res.status + " - Token yok/yanlış olabilir.";
+        return;
+      }
+
+      const data = await res.json();
+      box.textContent = JSON.stringify(data, null, 2);
+    }
+
+    // 3) refresh butonu
+    document.getElementById("btnRefresh").addEventListener("click", loadAlerts);
+
+    // sayfa açılınca çek
+    loadAlerts();
+</script>
+
+</body>
+</html>

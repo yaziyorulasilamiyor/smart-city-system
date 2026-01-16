@@ -1,0 +1,12 @@
+services:
+  smartcity:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - smartcity-data:/data
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlite:/data/smartcity.db
+
+volumes:
+  smartcity-data:
